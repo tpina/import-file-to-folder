@@ -6,7 +6,7 @@ This extension adds the functionality to import an existing file(s) into a folde
 
 Import a file (or several) to the desired folder by right-click on the folder and select the file(s) you want to import.
 
-![feature X](images/vs-code-extension.gif\)
+![Usage](images/vs-code-extension.gif)
 
 ## Known Issues
 
