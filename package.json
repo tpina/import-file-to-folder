@@ -3,6 +3,7 @@
   "displayName": "Import file to folder",
   "description": "Imports a file to the chosen folder",
   "publisher": "tiagoaspina",
+  "repository": "https://github.com/tpina/import-file-to-folder",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.30.0"
