@@ -4,7 +4,7 @@
   "description": "Imports a file to the chosen folder",
   "publisher": "tiagoaspina",
   "repository": "https://github.com/tpina/import-file-to-folder",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.30.0"
   },
