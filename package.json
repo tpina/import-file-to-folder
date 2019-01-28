@@ -2,6 +2,7 @@
   "name": "import-file-to-folder",
   "displayName": "Import file to folder",
   "description": "Imports a file to the chosen folder",
+  "publisher": "tiagoaspina",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.30.0"
