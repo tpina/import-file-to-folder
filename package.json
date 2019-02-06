@@ -16,6 +16,14 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "keybindings": [
+      {
+        "command": "extension.importFileToFolder",
+        "key": "ctrl+shift+i",
+        "mac": "cmd+shift+i",
+        "when": "explorerResourceIsFolder"
+      }
+    ],
     "commands": [
       {
         "command": "extension.importFileToFolder",

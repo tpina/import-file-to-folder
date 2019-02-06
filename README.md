@@ -8,12 +8,12 @@ Import a file (or several) to the desired folder by right-click on the folder an
 
 ![Usage](images/vs-code-extension.gif)
 
-## Known Issues
-
-No keybinding set for now.
-
 ## Release Notes
 
-### 1.0.0
+### 0.2.1
 
 Initial release
+
+### 0.2.2
+
+Added default keybinding
