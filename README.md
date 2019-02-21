@@ -17,3 +17,7 @@ Initial release
 ### 0.2.2
 
 Added default keybinding
+
+### 0.2.3
+
+Added extension icon
