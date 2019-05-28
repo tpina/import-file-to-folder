@@ -17,3 +17,7 @@ Added default keybinding
 ### 0.2.3
 
 Added extension icon
+
+### 0.4.0
+
+Fix issue with importing multiple files
