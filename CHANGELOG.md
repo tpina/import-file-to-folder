@@ -21,3 +21,7 @@ Added extension icon
 ### 0.4.0
 
 Fix issue with importing multiple files
+
+### 0.4.1
+
+Autofix - Bump fstream from 1.0.11 to 1.0.12
