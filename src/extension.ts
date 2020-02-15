@@ -29,19 +29,20 @@ export function activate(context: vscode.ExtensionContext) {
       vscode.window.showOpenDialog(options).then(fileUri => {
         if (fileUri) {
           fileUri.map(uri => {
-            const filePath = uri.fsPath.split("/");
-            try {
-              fs.copyFileSync(
-                uri.fsPath,
-                path.join(targetFolder, filePath[filePath.length - 1])
-              );
-            } catch (error) {
-              vscode.window.showErrorMessage(
-                "Error importing your file",
-                error
-              );
-            }
-          });
+          const filePath = uri.fsPath.split(path.sep);
+          try {
+            fs.copyFileSync(
+            uri.fsPath,
+            path.join(targetFolder, filePath[filePath.length - 1])
+            );
+          } catch (error) {
+            vscode.window.showErrorMessage(
+            "Error importing file " + filePath[filePath.length - 1],
+            error
+            );
+          }
+          }); 
+          vscode.window.showInformationMessage(`File${fileUri.length > 1 ? 's' : ''} imported successfully`);
         }
       });
     }
