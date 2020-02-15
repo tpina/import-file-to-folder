@@ -29,3 +29,7 @@ Autofix - Bump fstream from 1.0.11 to 1.0.12
 ### 0.5.1
 
 Autofix - Bump js-yaml from 3.12.1 to 3.13.1
+
+### 0.6.0
+
+Adding OS specific file separator for more deterministic imports
