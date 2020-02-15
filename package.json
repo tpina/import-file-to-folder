@@ -9,7 +9,7 @@
     "url": "https://github.com/tpina/import-file-to-folder"
   },
   "icon": "images/import-to-folder.png",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "engines": {
     "vscode": "^1.30.0"
   },
