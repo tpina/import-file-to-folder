@@ -33,3 +33,7 @@ Autofix - Bump js-yaml from 3.12.1 to 3.13.1
 ### 0.6.3
 
 Adding OS specific file separator for more deterministic imports
+
+### 0.10.0
+
+Fixing root folder import
