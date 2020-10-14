@@ -13,8 +13,9 @@ export function activate(context: vscode.ExtensionContext) {
       let targetFolder: string = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : "";
       vscode.commands.executeCommand("copyFilePath").then(() => {
         vscode.env.clipboard.readText().then(copyPath => {
-          if (fs.existsSync(copyPath)) {
-            targetFolder = copyPath;
+          const stat = fs.lstatSync(copyPath);
+          if (stat.isDirectory() && fs.existsSync(copyPath)) {
+              targetFolder = copyPath;
           }
         });
       });

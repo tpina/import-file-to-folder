@@ -37,3 +37,7 @@ Adding OS specific file separator for more deterministic imports
 ### 0.10.0
 
 Fixing root folder import
+
+### 0.10.1
+
+Fixing root folder import when file is selected
