@@ -45,3 +45,7 @@ Fixing root folder import
 ### 0.10.1
 
 Fixing root folder import when file is selected
+
+### 0.11.1
+
+Update release notes
