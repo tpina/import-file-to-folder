@@ -49,3 +49,7 @@ Fixing root folder import when file is selected
 ### 0.11.1
 
 Update release notes
+
+### 0.11.2
+
+Fixing minimist vulnerability
