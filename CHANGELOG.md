@@ -49,3 +49,7 @@ Update release notes
 ### 0.11.3
 
 Modernized build/test tooling (off deprecated `vscode`/`tslint` packages) and added CI/publish automation. No user-facing changes.
+
+### 0.11.4
+
+Added missing LICENSE file (MIT).
