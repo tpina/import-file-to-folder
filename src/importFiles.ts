@@ -7,20 +7,39 @@ export interface ImportResult {
   failed: { file: string; message: string }[];
 }
 
+/** What to do about one filename collision. The "*All" variants apply to every remaining collision in the batch without asking again. */
+export type CollisionDecision = "overwrite" | "skip" | "overwriteAll" | "skipAll";
+
 /**
- * Copies each source file into targetFolder. A source whose name already
- * exists in targetFolder is skipped rather than overwritten.
+ * Copies each source file into targetFolder. When a source's name already
+ * exists in targetFolder, resolveCollision is asked what to do; its answer
+ * decides whether that file is overwritten or skipped.
  */
-export function importFiles(sourcePaths: string[], targetFolder: string): ImportResult {
+export async function importFiles(
+  sourcePaths: string[],
+  targetFolder: string,
+  resolveCollision: (fileName: string) => Promise<CollisionDecision>
+): Promise<ImportResult> {
   const result: ImportResult = { imported: [], skipped: [], failed: [] };
+  let bulkDecision: "overwrite" | "skip" | undefined;
 
   for (const sourcePath of sourcePaths) {
     const fileName = path.basename(sourcePath);
     const destination = path.join(targetFolder, fileName);
 
     if (fs.existsSync(destination)) {
-      result.skipped.push(fileName);
-      continue;
+      const decision = bulkDecision ?? await resolveCollision(fileName);
+      if (decision === "overwriteAll") {
+        bulkDecision = "overwrite";
+      } else if (decision === "skipAll") {
+        bulkDecision = "skip";
+      }
+
+      const effective = bulkDecision ?? (decision === "overwrite" || decision === "skip" ? decision : "skip");
+      if (effective === "skip") {
+        result.skipped.push(fileName);
+        continue;
+      }
     }
 
     try {

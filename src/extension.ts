@@ -2,7 +2,29 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import * as fs from "fs";
-import { importFiles } from "./importFiles";
+import { CollisionDecision, importFiles } from "./importFiles";
+
+async function resolveCollision(fileName: string): Promise<CollisionDecision> {
+  const choice = await vscode.window.showWarningMessage(
+    `"${fileName}" already exists in the target folder. Overwrite it?`,
+    { modal: true },
+    "Overwrite", "Overwrite All", "Skip", "Skip All"
+  );
+
+  switch (choice) {
+    case "Overwrite":
+      return "overwrite";
+    case "Overwrite All":
+      return "overwriteAll";
+    case "Skip All":
+      return "skipAll";
+    case "Skip":
+    default:
+      // Dismissing the dialog (Escape / clicking away) also lands here,
+      // which is the safe default: don't overwrite without being told to.
+      return "skip";
+  }
+}
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -29,18 +51,12 @@ export function activate(context: vscode.ExtensionContext) {
         }
       };
 
-      vscode.window.showOpenDialog(options).then(fileUri => {
+      vscode.window.showOpenDialog(options).then(async fileUri => {
         if (!fileUri) {
           return;
         }
 
-        const result = importFiles(fileUri.map(uri => uri.fsPath), targetFolder);
-
-        for (const fileName of result.skipped) {
-          vscode.window.showWarningMessage(
-            `Skipped importing "${fileName}": a file with that name already exists in the target folder.`
-          );
-        }
+        const result = await importFiles(fileUri.map(uri => uri.fsPath), targetFolder, resolveCollision);
 
         for (const failure of result.failed) {
           vscode.window.showErrorMessage(

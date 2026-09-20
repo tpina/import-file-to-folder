@@ -21,4 +21,4 @@ Surfaced during the repo's first grilling session (`/grill-with-docs`), 2026-09-
 
 ## Resolution
 
-Extracted the copy logic into `src/importFiles.ts::importFiles`, which now checks `fs.existsSync` on the destination before copying and reports the file as skipped instead of overwriting it. `src/extension.ts` shows a `showWarningMessage` per skipped file. Covered by `src/test/suite/importFiles.test.ts`.
+Extracted the copy logic into `src/importFiles.ts::importFiles`, which checks `fs.existsSync` on the destination before copying. On a collision it now asks (via a `resolveCollision` callback, wired in `src/extension.ts` to a modal `showWarningMessage` with Overwrite / Overwrite All / Skip / Skip All) rather than silently overwriting or unilaterally skipping. Dismissing the dialog defaults to Skip. Covered by `src/test/suite/importFiles.test.ts`.

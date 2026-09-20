@@ -20,4 +20,4 @@ _Avoid_: Destination, output folder
 A single non-directory filesystem entry selectable as an import source. Folders are not currently importable; folder-importing is an unscoped future capability, not part of this term.
 
 **Filename Collision**:
-When a File being imported shares its name with an existing entry already in the Target Folder. Intended policy: warn and skip rather than silently overwrite (current implementation overwrites silently — tracked as a fix, not the intended behavior).
+When a File being imported shares its name with an existing entry already in the Target Folder. Policy: the user is prompted per collision to Overwrite, Skip, or apply that choice to the rest of the batch (Overwrite All / Skip All); dismissing the prompt defaults to Skip.

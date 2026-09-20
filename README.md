@@ -64,4 +64,4 @@ Added missing LICENSE file (MIT).
 
 ### 0.12.0
 
-Importing a file that already exists in the target folder is now skipped with a warning instead of silently overwriting it. The "imported successfully" message now only appears when every selected file actually imported (no more false success on partial failure).
+Importing a file that already exists in the target folder now prompts you to Overwrite, Skip, or apply that choice to the rest of the batch, instead of silently overwriting it. The "imported successfully" message now only appears when every selected file actually imported (no more false success on partial failure).
