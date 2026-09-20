@@ -31,6 +31,10 @@
       {
         "command": "extension.importFileToFolder",
         "title": "Import file to folder"
+      },
+      {
+        "command": "extension.exportFileToFolder",
+        "title": "Export to Folder…"
       }
     ],
     "menus": {
@@ -38,6 +42,10 @@
         {
           "when": "explorerResourceIsFolder",
           "command": "extension.importFileToFolder",
+          "group": "2_workspace"
+        },
+        {
+          "command": "extension.exportFileToFolder",
           "group": "2_workspace"
         }
       ]
