@@ -13,7 +13,7 @@ Category: bug
 
 ## Expected behavior
 
-Before copying, check whether a file of the same name already exists at the destination. If it does, skip that file and warn the user (e.g. via `vscode.window.showWarningMessage`) instead of overwriting silently. The Import Operation should still proceed for the remaining files.
+Before copying, check whether a file of the same name already exists at the destination. If it does, ask the user whether to overwrite or skip it (and let them apply that choice to the rest of the batch) instead of overwriting silently. The Import Operation should still proceed for the remaining files regardless of the answer.
 
 ## Origin
 

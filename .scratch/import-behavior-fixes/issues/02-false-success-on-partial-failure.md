@@ -21,4 +21,4 @@ Surfaced during the repo's first grilling session (`/grill-with-docs`), 2026-09-
 
 ## Resolution
 
-`src/extension.ts` now only shows the "imported successfully" message when `result.imported.length === fileUri.length` (every selected file actually copied, with none skipped or failed). Per-file warning/error messages are the only feedback on any partial outcome. Covered by `src/test/suite/importFiles.test.ts` ("reports a failed copy without stopping the rest of the batch").
+`src/extension.ts` now only shows the "imported successfully" message when `result.imported.length === fileUri.length` (every selected file actually copied, with none skipped or failed). On a partial outcome, per-file error messages are shown for failures, and skips are already surfaced through the collision prompt itself (see issue 01) — there's no follow-up success message either way. Covered by `src/test/suite/importFiles.test.ts` ("reports a failed copy without stopping the rest of the batch").
