@@ -45,3 +45,7 @@ Fixing root folder import when file is selected
 ### 0.11.1
 
 Update release notes
+
+### 0.11.3
+
+Modernized build/test tooling (off deprecated `vscode`/`tslint` packages) and added CI/publish automation. No user-facing changes.
