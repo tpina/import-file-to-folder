@@ -39,9 +39,9 @@ export function activate(context: vscode.ExtensionContext) {
                 path.join(targetFolder, filePath[filePath.length - 1])
               );
             } catch (error) {
+              const message = error instanceof Error ? error.message : String(error);
               vscode.window.showErrorMessage(
-                "Error importing file " + filePath[filePath.length - 1],
-                error
+                "Error importing file " + filePath[filePath.length - 1] + ": " + message
               );
             }
           });
