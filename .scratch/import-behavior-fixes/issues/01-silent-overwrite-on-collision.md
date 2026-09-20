@@ -1,6 +1,6 @@
 # Filename Collision silently overwrites
 
-Status: needs-triage
+Status: resolved
 Category: bug
 
 ## Problem
@@ -13,8 +13,12 @@ Category: bug
 
 ## Expected behavior
 
-Before copying, check whether a file of the same name already exists at the destination. If it does, skip that file and warn the user (e.g. via `vscode.window.showWarningMessage`) instead of overwriting silently. The Import Operation should still proceed for the remaining files.
+Before copying, check whether a file of the same name already exists at the destination. If it does, ask the user whether to overwrite or skip it (and let them apply that choice to the rest of the batch) instead of overwriting silently. The Import Operation should still proceed for the remaining files regardless of the answer.
 
 ## Origin
 
 Surfaced during the repo's first grilling session (`/grill-with-docs`), 2026-09-20.
+
+## Resolution
+
+Extracted the copy logic into `src/importFiles.ts::importFiles`, which checks `fs.existsSync` on the destination before copying. On a collision it now asks (via a `resolveCollision` callback, wired in `src/extension.ts` to a modal `showWarningMessage` with Overwrite / Overwrite All / Skip / Skip All) rather than silently overwriting or unilaterally skipping. Dismissing the dialog defaults to Skip. Covered by `src/test/suite/importFiles.test.ts`.
