@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import * as fs from "fs";
-import { CollisionDecision, importFiles } from "./importFiles";
+import { CollisionDecision, CopyResult, copyPaths } from "./copyPaths";
 
 async function resolveCollision(fileName: string): Promise<CollisionDecision> {
   const choice = await vscode.window.showWarningMessage(
@@ -23,6 +23,15 @@ async function resolveCollision(fileName: string): Promise<CollisionDecision> {
       // Dismissing the dialog (Escape / clicking away) also lands here,
       // which is the safe default: don't overwrite without being told to.
       return "skip";
+  }
+}
+
+/** Shows an error message for each failed item. Shared by Import and Export. */
+function reportFailures(result: CopyResult, verb: "importing" | "exporting") {
+  for (const failure of result.failed) {
+    vscode.window.showErrorMessage(
+      `Error ${verb} ${failure.file}: ${failure.message}`
+    );
   }
 }
 
@@ -56,13 +65,8 @@ export function activate(context: vscode.ExtensionContext) {
           return;
         }
 
-        const result = await importFiles(fileUri.map(uri => uri.fsPath), targetFolder, resolveCollision);
-
-        for (const failure of result.failed) {
-          vscode.window.showErrorMessage(
-            "Error importing file " + failure.file + ": " + failure.message
-          );
-        }
+        const result = await copyPaths(fileUri.map(uri => uri.fsPath), targetFolder, resolveCollision);
+        reportFailures(result, "importing");
 
         if (result.imported.length === fileUri.length) {
           vscode.window.showInformationMessage(`File${fileUri.length > 1 ? 's' : ''} imported successfully`);
@@ -72,6 +76,43 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(disposable);
+
+  let exportDisposable = vscode.commands.registerCommand(
+    "extension.exportFileToFolder",
+    async (contextUri?: vscode.Uri, selectedUris?: vscode.Uri[]) => {
+      const sourceUris = selectedUris && selectedUris.length > 0
+        ? selectedUris
+        : contextUri
+          ? [contextUri]
+          : [];
+
+      if (sourceUris.length === 0) {
+        vscode.window.showErrorMessage("Select one or more files or folders to export.");
+        return;
+      }
+
+      const destinationUri = await vscode.window.showOpenDialog({
+        canSelectFiles: false,
+        canSelectFolders: true,
+        canSelectMany: false,
+        openLabel: "Export Here"
+      });
+
+      if (!destinationUri || destinationUri.length === 0) {
+        return;
+      }
+
+      const targetFolder = destinationUri[0].fsPath;
+      const result = await copyPaths(sourceUris.map(uri => uri.fsPath), targetFolder, resolveCollision);
+      reportFailures(result, "exporting");
+
+      if (result.failed.length === 0 && result.skipped.length === 0) {
+        vscode.window.showInformationMessage("Exported successfully");
+      }
+    }
+  );
+
+  context.subscriptions.push(exportDisposable);
 }
 
 // this method is called when your extension is deactivated
