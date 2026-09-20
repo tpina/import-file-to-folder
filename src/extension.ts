@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import * as fs from "fs";
-import * as path from "path";
+import { importFiles } from "./importFiles";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -30,21 +30,25 @@ export function activate(context: vscode.ExtensionContext) {
       };
 
       vscode.window.showOpenDialog(options).then(fileUri => {
-        if (fileUri) {
-          fileUri.map(uri => {
-            const filePath = uri.fsPath.split(path.sep);
-            try {
-              fs.copyFileSync(
-                uri.fsPath,
-                path.join(targetFolder, filePath[filePath.length - 1])
-              );
-            } catch (error) {
-              const message = error instanceof Error ? error.message : String(error);
-              vscode.window.showErrorMessage(
-                "Error importing file " + filePath[filePath.length - 1] + ": " + message
-              );
-            }
-          });
+        if (!fileUri) {
+          return;
+        }
+
+        const result = importFiles(fileUri.map(uri => uri.fsPath), targetFolder);
+
+        for (const fileName of result.skipped) {
+          vscode.window.showWarningMessage(
+            `Skipped importing "${fileName}": a file with that name already exists in the target folder.`
+          );
+        }
+
+        for (const failure of result.failed) {
+          vscode.window.showErrorMessage(
+            "Error importing file " + failure.file + ": " + failure.message
+          );
+        }
+
+        if (result.imported.length === fileUri.length) {
           vscode.window.showInformationMessage(`File${fileUri.length > 1 ? 's' : ''} imported successfully`);
         }
       });

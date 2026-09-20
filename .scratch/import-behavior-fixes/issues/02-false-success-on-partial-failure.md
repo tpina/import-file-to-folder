@@ -1,6 +1,6 @@
 # Import Operation reports success despite partial failure
 
-Status: needs-triage
+Status: resolved
 Category: bug
 
 ## Problem
@@ -18,3 +18,7 @@ Track whether any file in the batch failed to copy. Only show the "imported succ
 ## Origin
 
 Surfaced during the repo's first grilling session (`/grill-with-docs`), 2026-09-20.
+
+## Resolution
+
+`src/extension.ts` now only shows the "imported successfully" message when `result.imported.length === fileUri.length` (every selected file actually copied, with none skipped or failed). Per-file warning/error messages are the only feedback on any partial outcome. Covered by `src/test/suite/importFiles.test.ts` ("reports a failed copy without stopping the rest of the batch").

@@ -1,6 +1,6 @@
 # Filename Collision silently overwrites
 
-Status: needs-triage
+Status: resolved
 Category: bug
 
 ## Problem
@@ -18,3 +18,7 @@ Before copying, check whether a file of the same name already exists at the dest
 ## Origin
 
 Surfaced during the repo's first grilling session (`/grill-with-docs`), 2026-09-20.
+
+## Resolution
+
+Extracted the copy logic into `src/importFiles.ts::importFiles`, which now checks `fs.existsSync` on the destination before copying and reports the file as skipped instead of overwriting it. `src/extension.ts` shows a `showWarningMessage` per skipped file. Covered by `src/test/suite/importFiles.test.ts`.

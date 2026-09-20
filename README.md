@@ -61,3 +61,7 @@ Modernized build/test tooling (off deprecated `vscode`/`tslint` packages) and ad
 ### 0.11.4
 
 Added missing LICENSE file (MIT).
+
+### 0.12.0
+
+Importing a file that already exists in the target folder is now skipped with a warning instead of silently overwriting it. The "imported successfully" message now only appears when every selected file actually imported (no more false success on partial failure).
