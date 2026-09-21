@@ -1,4 +1,4 @@
-name: Publish to VS Code Marketplace
+name: Publish to VS Code Marketplace / Open VSX
 
 on:
   push:
@@ -27,3 +27,11 @@ jobs:
       - run: npx @vscode/vsce@4.0.0 publish --pat "$VSCE_PAT"
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+      # Cursor and other VS Code forks pull from Open VSX, not the Microsoft
+      # Marketplace, so a release isn't visible there without this too.
+      # Skipped until an OVSX_PAT secret (from open-vsx.org) is added.
+      - if: ${{ secrets.OVSX_PAT != '' }}
+        run: npx ovsx publish --pat "$OVSX_PAT"
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
