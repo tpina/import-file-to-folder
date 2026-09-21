@@ -32,6 +32,9 @@ jobs:
 
       # Cursor and other VS Code forks pull from Open VSX, not the Microsoft
       # Marketplace, so a release isn't visible there without this too.
+      # always() so this still runs (and can still fail the job) even if the
+      # Marketplace publish above already failed, e.g. because that version
+      # was already published there - the two registries are independent.
       # No-ops if OVSX_PAT (from open-vsx.org) isn't set.
-      - if: ${{ env.OVSX_PAT != '' }}
+      - if: ${{ always() && env.OVSX_PAT != '' }}
         run: npx ovsx publish --pat "$OVSX_PAT"
